@@ -1,4 +1,4 @@
-import {
+﻿import {
   db,
   auth,
   app,
@@ -21,3 +21,4 @@ export {
 };
 
 export default db;
+

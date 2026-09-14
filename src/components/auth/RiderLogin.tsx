@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { UserAuth } from '../../types';
 import { Smartphone, Phone, Lock, AlertCircle, ArrowRight, Bike, KeyRound, Eye, EyeOff } from 'lucide-react';
 import { StorageService } from '../../services/storage';
@@ -81,10 +81,7 @@ export const RiderLogin: React.FC<RiderLoginProps> = ({ onLoginSuccess, onBackTo
 
       for (const candidate of emailCandidates) {
         try {
-          const credential = await signInWithEmailAndPassword(
-            auth,
-            candidate,
-            passwordForFirebaseAuth(cleanPin)
+          const credential = await signInWithEmailAndPassword(auth, candidate, password)
           );
           const tokenResult = await credential.user.getIdTokenResult();
           if (tokenResult.claims.role && tokenResult.claims.role !== 'rider') {
@@ -405,4 +402,6 @@ export const RiderLogin: React.FC<RiderLoginProps> = ({ onLoginSuccess, onBackTo
     </div>
   );
 };
+
+
 
