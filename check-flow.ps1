@@ -2,7 +2,7 @@
 Write-Host " VialTrack Route Assignment Flow Verification " -ForegroundColor Cyan
 Write-Host "==============================================" -ForegroundColor Cyan
 
-# 1. Check Git Status & Changes
+# 1. Check Git Status
 Write-Host "`n[1/4] Checking Git Status..." -ForegroundColor Yellow
 git status --short
 
@@ -26,10 +26,10 @@ if (Get-Command firebase -ErrorAction SilentlyContinue) {
     Write-Host "Firebase CLI not installed in path. Skipping remote rules deploy." -ForegroundColor Gray
 }
 
-# 4. Launch Development Server for Live Flow Testing
+# 4. Launch Development Server on Configured Port
 Write-Host "`n[4/4] Starting Vite Development Server for Live Testing..." -ForegroundColor Yellow
-Write-Host "Admin Portal:    http://localhost:5173/#/admin" -ForegroundColor Cyan
-Write-Host "Rider Portal:    http://localhost:5173/#/rider/login" -ForegroundColor Cyan
+Write-Host "Admin Portal:    http://localhost:3000/#/admin" -ForegroundColor Cyan
+Write-Host "Rider Portal:    http://localhost:3000/#/rider/login" -ForegroundColor Cyan
 Write-Host "==============================================`n" -ForegroundColor Cyan
 
 npm run dev
