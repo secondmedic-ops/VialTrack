@@ -554,7 +554,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
             <div className="p-2 flex-1 overflow-auto flex items-center justify-center">
               <img src={zoomedImage.url}
                 alt={zoomedImage.title}
-                className="max-w-full max-h-[75vh] object-contain rounded"
+                  className="max-w-full max-h-[75vh] object-contain rounded" />
             </div>
           </div>
         </div>
