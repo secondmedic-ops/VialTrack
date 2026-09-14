@@ -1,0 +1,47 @@
+﻿--- a/src/components/rider/RiderDashboard.tsx
++++ b/src/components/rider/RiderDashboard.tsx
+@@ -1,5 +1,5 @@
+-import React, { useState, useEffect } from 'react';
+-import { collection, query, where, onSnapshot } from 'firebase/firestore';
++import React, { useState, useEffect, useMemo } from 'react';
++import { collection, query, where, onSnapshot, or } from 'firebase/firestore';
+ import { db } from '../../firebase';
+ 
+ export const RiderDashboard: React.FC<{ user: any }> = ({ user }) => {
+@@ -10,13 +10,21 @@ export const RiderDashboard: React.FC<{ user: any }> = ({ user }) => {
+   useEffect(() => {
+     if (!user) return;
+ 
+-    // Previous issue: Only queried auth UID or strict single property
++    // Resolve possible identifiers (Rider ID string, doc ID, or Auth UID)
++    const candidateIds = Array.from(
++      new Set([user.id, user.riderId, user.uid, user.username].filter(Boolean))
++    );
++
+     const routesRef = collection(db, 'routes');
+     const q = query(
+       routesRef,
+-      where('assignedRiderId', '==', user.uid)
++      where('assignedRiderId', 'in', candidateIds)
+     );
+ 
+     const unsubscribe = onSnapshot(
+       q,
+       (snapshot) => {
+@@ -24,8 +32,14 @@ export const RiderDashboard: React.FC<{ user: any }> = ({ user }) => {
+           id: doc.id,
+           ...doc.data()
+         }));
+-        setAssignedRoutes(fetchedRoutes);
++        // Ensure case-insensitive or active/pending route lifecycle visibility
++        const visibleRoutes = fetchedRoutes.filter((r: any) =>
++          !r.status || ['active', 'in-progress', 'assigned', 'pending'].includes(r.status.toLowerCase())
++        );
++        setAssignedRoutes(visibleRoutes);
+         setLoading(false);
+       },
+       (error) => {
+         console.error('Error listening to assigned routes:', error);
+         setLoading(false);
+       }
+     );
