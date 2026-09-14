@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { PickupTask } from '../../types';
 import { StorageService } from '../../services/storage';
 import { X, CheckCircle, MapPin, Thermometer, ShieldCheck, Download, Package, UserCheck, Calendar, Clock, Maximize2, ExternalLink } from 'lucide-react';
@@ -25,7 +25,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
         onClick={onClose}
       >
         <div
-          className="w-full max-w-md bg-white border border-slate-200 rounded-xl shadow-2xl p-7 text-center"
+          className="w-full max-w-lg w-[92vw] max-h-[85vh] overflow-y-auto bg-white border border-slate-200 rounded-xl shadow-2xl p-7 text-center"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="w-11 h-11 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 mx-auto mb-3">
@@ -131,7 +131,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                Task ID: <span className="font-mono text-slate-700 font-semibold">{task.id}</span> • {task.clientName}
+                Task ID: <span className="font-mono text-slate-700 font-semibold">{task.id}</span> â€¢ {task.clientName}
               </p>
             </div>
           </div>
@@ -160,7 +160,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
             <span className="text-slate-500 block flex items-center gap-1 mb-0.5 text-[11px] font-medium">
               <Calendar className="w-3.5 h-3.5 text-sky-700" /> Date & Slot
             </span>
-            <span className="font-bold text-slate-900 text-xs sm:text-sm">{task.date} • {task.timeSlot}</span>
+            <span className="font-bold text-slate-900 text-xs sm:text-sm">{task.date} â€¢ {task.timeSlot}</span>
           </div>
 
           <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-xs">
@@ -183,7 +183,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
             <span className="text-slate-500 block flex items-center gap-1 mb-0.5 text-[11px] font-medium">
               <Thermometer className="w-3.5 h-3.5 text-emerald-600" /> Cold-Chain Status
             </span>
-            <span className="font-bold text-emerald-800 text-xs sm:text-sm">2.0°C – 8.0°C</span>
+            <span className="font-bold text-emerald-800 text-xs sm:text-sm">2.0Â°C â€“ 8.0Â°C</span>
             <span className="text-[10px] text-emerald-700 block font-medium">Chiller Verified</span>
           </div>
         </div>
@@ -271,7 +271,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                         <span className="text-slate-400 block text-[10px] font-semibold">Chiller Temp:</span>
                         <span className="font-mono font-bold text-emerald-800 text-xs">
                           {stop.coldBoxTemp !== undefined && stop.coldBoxTemp !== null ? (
-                            `${Number(stop.coldBoxTemp).toFixed(1)}°C`
+                            `${Number(stop.coldBoxTemp).toFixed(1)}Â°C`
                           ) : (
                             <span className="text-slate-400 font-semibold">Not recorded</span>
                           )}
@@ -303,11 +303,10 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                           onClick={() => setZoomedImage({ url: vialsPhoto, title: `Specimen Vials Proof: ${stopName}` })}
                           className="relative rounded-lg overflow-hidden border border-slate-200 bg-slate-100 cursor-pointer group"
                         >
-                          <img
-                            src={vialsPhoto}
+                          <img src={vialsPhoto}
                             alt={`Specimen proof at ${stopName}`}
                             className="w-full h-36 object-cover rounded-lg group-hover:scale-101 transition-transform"
-                          />
+                          / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">
                             Click to enlarge
                           </div>
@@ -348,11 +347,10 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                           })}
                           className="relative rounded-lg overflow-hidden border border-slate-200 bg-slate-100 cursor-pointer group"
                         >
-                          <img
-                            src={selfiePhoto}
+                          <img src={selfiePhoto}
                             alt={`Rider selfie at ${stopName}`}
                             className="w-full h-36 object-cover rounded-lg group-hover:scale-101 transition-transform"
-                          />
+                          / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
                           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">
                             Click to enlarge
                           </div>
@@ -389,7 +387,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                 task.receiverName ||
                 task.intakeReceiver ||
                 (task as any)?.finalDrop?.receiverName ||
-                (isDelivered ? 'Dr. Jayesh Joshi (Pathologist)' : '—');
+                (isDelivered ? 'Dr. Jayesh Joshi (Pathologist)' : 'â€”');
 
               const destTime = task.destination?.deliveredAt ||
                 task.deliveryTimestamp ||
@@ -440,14 +438,14 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">Delivery Timestamp:</span>
                       <span className="font-mono text-slate-900 font-bold text-xs">
-                        {destTime ? new Date(destTime).toLocaleString('en-IN') : '—'}
+                        {destTime ? new Date(destTime).toLocaleString('en-IN') : 'â€”'}
                       </span>
                     </div>
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">Intake Temperature:</span>
                       <span className="font-mono text-emerald-800 font-bold text-xs">
                         {destTemp !== undefined && destTemp !== null ? (
-                          `${Number(destTemp).toFixed(1)}°C (Cold-Chain OK)`
+                          `${Number(destTemp).toFixed(1)}Â°C (Cold-Chain OK)`
                         ) : (
                           <span className="text-slate-400 font-semibold">Not recorded</span>
                         )}
@@ -485,11 +483,10 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                         })}
                         className="relative rounded-lg overflow-hidden border border-slate-200 bg-slate-100 cursor-pointer group"
                       >
-                        <img
-                          src={destPhoto}
+                        <img src={destPhoto}
                           alt="Lab Drop Proof"
                           className="w-full max-h-64 object-cover rounded-lg group-hover:scale-101 transition-transform"
-                        />
+                        / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">
                           Click to enlarge
                         </div>
@@ -558,11 +555,10 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
               </div>
             </div>
             <div className="p-2 flex-1 overflow-auto flex items-center justify-center">
-              <img
-                src={zoomedImage.url}
+              <img src={zoomedImage.url}
                 alt={zoomedImage.title}
                 className="max-w-full max-h-[75vh] object-contain rounded"
-              />
+              / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
             </div>
           </div>
         </div>
@@ -570,3 +566,4 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
     </div>
   );
 };
+
