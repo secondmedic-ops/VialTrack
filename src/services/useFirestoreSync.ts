@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+﻿import { useEffect, useState, useRef } from 'react';
 import {
   collection,
   query,
@@ -141,3 +141,4 @@ export function useAttendance(options?: UseFirestoreSyncOptions) {
 }
 
 export default useFirestoreSync;
+
