@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120">
+  <defs>
+    <linearGradient id="smGradWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="60%" stop-color="#00A3E0" />
+      <stop offset="100%" stop-color="#0084D1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Speech bubble Icon -->
+  <g transform="translate(8, 6)">
+    <path d="M 54 9 
+             C 79 9 99 29 99 54 
+             C 99 79 79 99 54 99 
+             C 44.5 99 35.8 96.1 28.5 91.2 
+             L 13.5 95.4 
+             L 18.2 80.8 
+             C 12.4 73.2 9 64 9 54 
+             C 9 29 29 9 54 9 Z" 
+          fill="url(#smGradWhite)" />
+
+    <!-- ECG Line -->
+    <path d="M 22 54 
+             L 38 54 
+             L 43 43 
+             L 49 67 
+             L 56 27 
+             L 63 77 
+             L 70 48 
+             L 75 58 
+             L 80 54 
+             L 86 54" 
+          fill="none" 
+          stroke="#FFFFFF" 
+          stroke-width="5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+    <circle cx="56" cy="27" r="3" fill="#FFFFFF" />
+  </g>
+
+  <!-- SecondMedic Typography -->
+  <g transform="translate(126, 40)">
+    <text font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="46" font-weight="800" letter-spacing="-1.2">
+      <tspan x="0" y="30" fill="#FFFFFF">Second</tspan>
+      <tspan fill="#38BDF8">Medic</tspan>
+    </text>
+    <text x="3" y="56" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700" letter-spacing="1.8" fill="#94A3B8" text-transform="uppercase">
+      VialTrack • Diagnostic Logistics
+    </text>
+  </g>
+</svg>

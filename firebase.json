@@ -1,0 +1,16 @@
+{
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "runtime": "nodejs22"
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "database": "ai-studio-secondmedicvialt-672ab7fa-5c2a-4a7b-9439-899ee4ab7829"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}
