@@ -570,3 +570,4 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
     </div>
   );
 };
+
