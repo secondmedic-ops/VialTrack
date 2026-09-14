@@ -9,16 +9,35 @@ service cloud.firestore {
     match /riders/{riderId} {
       allow read: if true;
       allow write: if isAuthenticated();
+      
+      // Allow rider subcollections (trips, logs, history)
+      match /{subcollection=**} {
+        allow read, write: if isAuthenticated();
+      }
+    }
+
+    // Top-level Trips Collection
+    match /trips/{tripId} {
+      allow read, write: if isAuthenticated();
+      match /{subcollection=**} {
+        allow read, write: if isAuthenticated();
+      }
     }
 
     // Routes Collection
     match /routes/{routeId} {
       allow read, write: if isAuthenticated();
+      match /{subcollection=**} {
+        allow read, write: if isAuthenticated();
+      }
     }
 
-    // Tasks Collection (Resolves "Polling fallback for rider tasks" error)
+    // Tasks Collection
     match /tasks/{taskId} {
       allow read, write: if isAuthenticated();
+      match /{subcollection=**} {
+        allow read, write: if isAuthenticated();
+      }
     }
 
     // Clients & Labs
