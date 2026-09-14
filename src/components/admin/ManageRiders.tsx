@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { PickupBoy, Route } from '../../types';
 import {
   Bike,
@@ -322,7 +322,7 @@ export const ManageRiders: React.FC<ManageRidersProps> = ({ riders, routes, onRe
                     <div className="col-span-2">
                       <span className="text-slate-400 block text-[10px] font-semibold uppercase">GPS Coordinates:</span>
                       <span className="font-mono text-slate-700 text-[11px] truncate block">
-                        {rider.currentLocation?.lat ? `${Number(rider.currentLocation.lat).toFixed(4)}, ${Number(rider.currentLocation.lng).toFixed(4)} (±${rider.currentLocation.accuracy || 5}m)` : 'Broadcasting on route start'}
+                        {rider.currentLocation?.lat ? `${Number(rider.currentLocation.lat).toFixed(4)}, ${Number(rider.currentLocation.lng).toFixed(4)} (Â±${rider.currentLocation.accuracy || 5}m)` : 'Broadcasting on route start'}
                       </span>
                     </div>
                   </div>
@@ -491,3 +491,4 @@ export const ManageRiders: React.FC<ManageRidersProps> = ({ riders, routes, onRe
     </div>
   );
 };
+

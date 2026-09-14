@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { PickupTask, PickupBoy, Client } from '../../types';
 import { FileText, Download, TrendingUp, DollarSign, CheckCircle2, AlertTriangle, Printer, Calendar } from 'lucide-react';
 import jsPDF from 'jspdf';
@@ -25,7 +25,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ tasks, riders, clients
       0
     );
     const onTimePct = riderTasks.length > 0 ? Math.round(((riderTasks.length - delayed) / riderTasks.length) * 100) : 100;
-    const estimatedPayout = completed * 220; // ₹220 per completed loop payout
+    const estimatedPayout = completed * 220; // â‚¹220 per completed loop payout
 
     return {
       rider,
@@ -211,13 +211,13 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ tasks, riders, clients
                   <div className="text-xs text-slate-500 mt-0.5">
                     {cm.totalRounds} Rounds Completed • {cm.totalVials} Vials Moved
                   </div>
-                  <span className="text-[11px] text-sky-700 font-mono font-medium">Rate: ₹{cm.rate} / pickup round</span>
+                  <span className="text-[11px] text-sky-700 font-mono font-medium">Rate: â‚¹{cm.rate} / pickup round</span>
                 </div>
 
                 <div className="text-right">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Estimated Total</span>
                   <span className="text-base sm:text-lg font-bold text-emerald-700 font-mono">
-                    ₹{cm.totalBill.toLocaleString('en-IN')}
+                    â‚¹{cm.totalBill.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
@@ -261,7 +261,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ tasks, riders, clients
                 <div className="text-right">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">Estimated Payout</span>
                   <span className="text-base sm:text-lg font-bold text-sky-700 font-mono">
-                    ₹{rm.estimatedPayout.toLocaleString('en-IN')}
+                    â‚¹{rm.estimatedPayout.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
@@ -272,3 +272,4 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ tasks, riders, clients
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrandLogo } from './BrandLogo';
 import {
   ShieldCheck,
@@ -225,3 +225,4 @@ export const PortalLanding: React.FC<PortalLandingProps> = ({ onSelectPortal }) 
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+﻿import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
@@ -411,7 +411,7 @@ export const MumbaiMapDashboard: React.FC<MumbaiMapDashboardProps> = ({
             
             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">${riderName}</div>
             <div style="font-size: 11px; color: #64748b; margin-top: 1px;">${r.vehicleType || 'Motorcycle'} • <span style="font-family: monospace; font-weight: 600;">${vehicleNum}</span></div>
-            ${r.area ? `<div style="font-size: 11px; color: #0284c7; font-weight: 600; margin-top: 2px;">📍 Area: ${r.area}</div>` : ''}
+            ${r.area ? `<div style="font-size: 11px; color: #0284c7; font-weight: 600; margin-top: 2px;">ðŸ“ Area: ${r.area}</div>` : ''}
             
             <div style="margin-top: 8px; padding: 6px 8px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 11px;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
@@ -555,7 +555,7 @@ export const MumbaiMapDashboard: React.FC<MumbaiMapDashboardProps> = ({
                   ? 'bg-rose-600 ring-3 ring-rose-300 animate-bounce'
                   : 'bg-indigo-600 ring-2 ring-indigo-300'
               } text-white font-bold text-xs flex items-center justify-center shadow-lg transform transition-transform group-hover:scale-115">
-                <span>${isPickedUp ? '✓' : `P${idx + 1}`}</span>
+                <span>${isPickedUp ? 'âœ“' : `P${idx + 1}`}</span>
               </div>
               <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white text-slate-900 text-[10px] font-bold px-1.5 py-0.5 rounded shadow-xs border border-slate-200 whitespace-nowrap">
                 ${shortPickupName}
@@ -693,7 +693,7 @@ export const MumbaiMapDashboard: React.FC<MumbaiMapDashboardProps> = ({
             <span style="font-size: 10px; font-weight: 800; color: #d97706; text-transform: uppercase;">Registered Client Center</span>
             <div style="font-size: 13px; font-weight: 800; color: #0f172a; margin-top: 2px;">${clientName}</div>
             <div style="font-size: 11px; color: #64748b; margin-top: 2px;">${client.address || ''}</div>
-            ${client.contactPerson ? `<div style="font-size: 11px; color: #0284c7; font-weight: 600; margin-top: 3px;">👤 ${client.contactPerson} (${client.phone || ''})</div>` : ''}
+            ${client.contactPerson ? `<div style="font-size: 11px; color: #0284c7; font-weight: 600; margin-top: 3px;">ðŸ‘¤ ${client.contactPerson} (${client.phone || ''})</div>` : ''}
           </div>
         `);
 
@@ -1206,3 +1206,4 @@ export const MumbaiMapDashboard: React.FC<MumbaiMapDashboardProps> = ({
     </div>
   );
 };
+

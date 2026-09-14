@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Activity, Shield, RefreshCw } from 'lucide-react';
 import { UserRole } from '../../types';
 
@@ -173,3 +173,4 @@ export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({ rolePortal = '
     </div>
   );
 };
+

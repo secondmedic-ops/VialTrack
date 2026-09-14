@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+﻿import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth, PickupTask, Route, PickupBoy, Client, StopProgress } from '../../types';
 import { LiveMap } from '../common/LiveMap';
@@ -626,7 +626,7 @@ export const ClientDashboard: React.FC<ClientDashboardProps> = ({
                   <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-slate-900 font-bold">
                     <div className="flex items-center gap-1.5 truncate max-w-[200px]">
                       <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] flex items-center justify-center shrink-0">
-                        ✓
+                        âœ“
                       </span>
                       <span className="truncate text-emerald-900">
                         {activeLiveRoute.destinationLab?.name || user.name}
@@ -1028,3 +1028,4 @@ export const ClientDashboard: React.FC<ClientDashboardProps> = ({
     </div>
   );
 };
+

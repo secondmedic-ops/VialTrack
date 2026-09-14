@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Bell, ShieldAlert, Sliders, MessageSquare, Send, CheckCircle2, AlertTriangle, Thermometer, MapPin, Trash2, RefreshCw, Smartphone, KeyRound } from 'lucide-react';
 import { NotificationService } from '../../services/notificationService';
 import { cleanupFirestoreCollections, sendRiderPushAlert, runAccountSecurityMigration, removeAllLegacyPasswords } from '../../services/firebase';
@@ -519,3 +519,4 @@ export const AlertsConfigView: React.FC<AlertsConfigViewProps> = ({ onRefresh, r
     </div>
   );
 };
+

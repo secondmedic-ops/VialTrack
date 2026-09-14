@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useMemo, useEffect } from 'react';
 import { PickupTask, PickupBoy, Route, Client, NotificationLog } from '../../types';
 import { LiveMap } from '../common/LiveMap';
 import { DispatchModal } from './DispatchModal';
@@ -701,7 +701,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               return `${dispatchedToday} dispatched${pendingToday > 0 ? ` • ${pendingToday} not yet dispatched` : ''}`;
             })()}
           </div>
-          <div className="text-[10px] text-sky-700 font-bold mt-0.5">View full archive →</div>
+          <div className="text-[10px] text-sky-700 font-bold mt-0.5">View full archive â†’</div>
         </button>
 
         <div className="bg-white p-4 rounded-xl shadow-xs border border-slate-200">
@@ -913,7 +913,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                     className="text-[10px] font-bold text-amber-900 bg-amber-50 border border-amber-300 hover:bg-amber-100 px-2 py-0.5 rounded-full whitespace-nowrap cursor-pointer disabled:opacity-50"
                   >
                     {isClosingStale
-                      ? 'Fixing…'
+                      ? 'Fixingâ€¦'
                       : `Fix ${Math.max(staleRounds.length, misdatedRounds.length)} old round${
                           Math.max(staleRounds.length, misdatedRounds.length) === 1 ? '' : 's'
                         }`}
@@ -1560,3 +1560,4 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     </div>
   );
 };
+

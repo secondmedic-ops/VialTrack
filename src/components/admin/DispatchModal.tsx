@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Client, Route, PickupBoy, PickupTask } from '../../types';
 import { CloudSync, formatUnifiedTask } from '../../services/firebase';
 import { db } from '../../firebase';
@@ -601,7 +601,7 @@ export const DispatchModal: React.FC<DispatchModalProps> = ({
                           className="w-[92px] px-1.5 py-1 bg-white border border-slate-300 rounded-md text-[10px] font-mono font-bold text-slate-800 focus:border-sky-600 focus:outline-hidden disabled:bg-slate-100 disabled:text-slate-400"
                         />
                         <span className="text-[9px] text-slate-400 font-semibold hidden lg:inline-block w-14">
-                          {stop.pickupTime ? formatTimeLabel(stop.pickupTime) : `≈ ${formatTimeLabel(taskTimeSlot)}`}
+                          {stop.pickupTime ? formatTimeLabel(stop.pickupTime) : `â‰ˆ ${formatTimeLabel(taskTimeSlot)}`}
                         </span>
                       </div>
                       <span className="text-[10px] text-slate-500 bg-slate-50 border border-slate-200 px-2 py-1 rounded-md font-medium hidden sm:inline-block">
@@ -678,3 +678,4 @@ export const DispatchModal: React.FC<DispatchModalProps> = ({
     </div>
   );
 };
+

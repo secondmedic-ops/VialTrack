@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Client, Route, RouteStop } from '../../types';
 import {
@@ -500,7 +500,7 @@ export const ManageClients: React.FC<ManageClientsProps> = ({ clients, routes, o
                       <span className="flex items-center gap-1 text-[11px]">
                         <MapPin className="w-3 h-3 text-sky-700" /> {rCount} Route(s)
                       </span>
-                      <span className="font-mono font-semibold text-slate-800 text-[11px]">₹{client.billingRatePerPickup || 0}/pickup</span>
+                      <span className="font-mono font-semibold text-slate-800 text-[11px]">â‚¹{client.billingRatePerPickup || 0}/pickup</span>
                     </div>
                   </div>
                 );
@@ -800,7 +800,7 @@ export const ManageClients: React.FC<ManageClientsProps> = ({ clients, routes, o
               <div className="grid grid-cols-2 gap-3 pt-1">
                 <div>
                   <label className="block text-slate-700 font-bold uppercase tracking-wider mb-1 text-[11px]">
-                    Rate per Pickup Round (₹)
+                    Rate per Pickup Round (â‚¹)
                   </label>
                   <input
                     type="number"

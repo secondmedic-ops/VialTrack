@@ -131,7 +131,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                Task ID: <span className="font-mono text-slate-700 font-semibold">{task.id}</span> â€¢ {task.clientName}
+                Task ID: <span className="font-mono text-slate-700 font-semibold">{task.id}</span> • {task.clientName}
               </p>
             </div>
           </div>
@@ -160,7 +160,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
             <span className="text-slate-500 block flex items-center gap-1 mb-0.5 text-[11px] font-medium">
               <Calendar className="w-3.5 h-3.5 text-sky-700" /> Date & Slot
             </span>
-            <span className="font-bold text-slate-900 text-xs sm:text-sm">{task.date} â€¢ {task.timeSlot}</span>
+            <span className="font-bold text-slate-900 text-xs sm:text-sm">{task.date} • {task.timeSlot}</span>
           </div>
 
           <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-xs">
@@ -183,7 +183,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
             <span className="text-slate-500 block flex items-center gap-1 mb-0.5 text-[11px] font-medium">
               <Thermometer className="w-3.5 h-3.5 text-emerald-600" /> Cold-Chain Status
             </span>
-            <span className="font-bold text-emerald-800 text-xs sm:text-sm">2.0Â°C â€“ 8.0Â°C</span>
+            <span className="font-bold text-emerald-800 text-xs sm:text-sm">2.0°C – 8.0°C</span>
             <span className="text-[10px] text-emerald-700 block font-medium">Chiller Verified</span>
           </div>
         </div>
@@ -271,7 +271,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                         <span className="text-slate-400 block text-[10px] font-semibold">Chiller Temp:</span>
                         <span className="font-mono font-bold text-emerald-800 text-xs">
                           {stop.coldBoxTemp !== undefined && stop.coldBoxTemp !== null ? (
-                            `${Number(stop.coldBoxTemp).toFixed(1)}Â°C`
+                            `${Number(stop.coldBoxTemp).toFixed(1)}°C`
                           ) : (
                             <span className="text-slate-400 font-semibold">Not recorded</span>
                           )}
@@ -385,7 +385,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                 task.receiverName ||
                 task.intakeReceiver ||
                 (task as any)?.finalDrop?.receiverName ||
-                (isDelivered ? 'Dr. Jayesh Joshi (Pathologist)' : 'â€”');
+                (isDelivered ? 'Dr. Jayesh Joshi (Pathologist)' : '—');
 
               const destTime = task.destination?.deliveredAt ||
                 task.deliveryTimestamp ||
@@ -436,14 +436,14 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">Delivery Timestamp:</span>
                       <span className="font-mono text-slate-900 font-bold text-xs">
-                        {destTime ? new Date(destTime).toLocaleString('en-IN') : 'â€”'}
+                        {destTime ? new Date(destTime).toLocaleString('en-IN') : '—'}
                       </span>
                     </div>
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">Intake Temperature:</span>
                       <span className="font-mono text-emerald-800 font-bold text-xs">
                         {destTemp !== undefined && destTemp !== null ? (
-                          `${Number(destTemp).toFixed(1)}Â°C (Cold-Chain OK)`
+                          `${Number(destTemp).toFixed(1)}°C (Cold-Chain OK)`
                         ) : (
                           <span className="text-slate-400 font-semibold">Not recorded</span>
                         )}
@@ -562,6 +562,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
     </div>
   );
 };
+
 
 
 

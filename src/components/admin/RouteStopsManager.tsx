@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 import {
   MapPin,
@@ -619,7 +619,7 @@ export const RouteStopsManager: React.FC<RouteStopsManagerProps> = ({
               <span>Ordered Stop Sequence ({(route.stops || []).length})</span>
             </span>
             <span className="text-[10px] text-slate-400 font-medium hidden sm:inline">
-              Use ↑ ↓ arrows or drag handle to rearrange
+              Use â†‘ â†“ arrows or drag handle to rearrange
             </span>
           </div>
 
@@ -793,7 +793,7 @@ export const RouteStopsManager: React.FC<RouteStopsManagerProps> = ({
                 <span>Live Route Polyline Preview</span>
               </span>
               <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                Connected: {route.stops.length} Stops → Lab
+                Connected: {route.stops.length} Stops â†’ Lab
               </span>
             </div>
 
@@ -1054,3 +1054,4 @@ export const RouteStopsManager: React.FC<RouteStopsManagerProps> = ({
     </div>
   );
 };
+

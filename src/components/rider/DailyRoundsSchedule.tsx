@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { PickupTask, Route } from '../../types';
 import {
   Clock,
@@ -504,7 +504,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
                       <span>{group.stops.length} Collection Stops Queued for {group.timeSlot}:</span>
                     </div>
                     <p className="text-[11px] text-slate-500">
-                      {group.stops.map((s, idx) => `Stop ${idx + 1}: ${s.stopName}`).join(' → ')} → Drop Destination: <strong>{destLab.name}</strong>
+                      {group.stops.map((s, idx) => `Stop ${idx + 1}: ${s.stopName}`).join(' â†’ ')} â†’ Drop Destination: <strong>{destLab.name}</strong>
                     </p>
                   </div>
 
@@ -547,7 +547,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
                   </h4>
                   {isActive && (
                     <span className="text-[10px] font-bold text-sky-800 bg-sky-100 border border-sky-300 px-2 py-0.5 rounded-full flex items-center gap-1 animate-pulse">
-                      ● Active Round
+                      â— Active Round
                     </span>
                   )}
                 </div>
@@ -694,7 +694,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
                                     <span>{stop.coldBoxTemp}°C</span>
                                   </span>
                                 )}
-                                <span className="text-[11px] text-emerald-700 font-bold">✓ 2-Photo Proof</span>
+                                <span className="text-[11px] text-emerald-700 font-bold">âœ“ 2-Photo Proof</span>
                               </div>
                             ) : (
                               <span className="text-slate-500 text-xs flex items-center gap-1">
@@ -887,3 +887,4 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
     </div>
   );
 };
+

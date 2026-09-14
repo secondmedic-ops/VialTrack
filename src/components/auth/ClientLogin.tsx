@@ -274,7 +274,7 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-3 pr-10 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 font-mono focus:outline-hidden focus:border-teal-600 shadow-2xs"
@@ -312,5 +312,6 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
     </div>
   );
 };
+
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { UserRole } from '../../types';
 import { ExternalLink, CheckCircle2 } from 'lucide-react';
 
@@ -44,9 +44,10 @@ export const Footer: React.FC<FooterProps> = ({ role }) => {
             Cold-Chain Safe (2-8°C)
           </span>
           <span className="hidden md:inline text-slate-300">•</span>
-          <span className="hidden md:inline">© {new Date().getFullYear()} SecondMedic Healthcare</span>
+          <span className="hidden md:inline">Â© {new Date().getFullYear()} SecondMedic Healthcare</span>
         </div>
       </div>
     </footer>
   );
 };
+

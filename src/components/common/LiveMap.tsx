@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+﻿import React, { useEffect, useState, useMemo, useRef } from 'react';
 import L from 'leaflet';
 import { RouteStop, DestinationLab, PickupBoy, PickupTask, StopExecution } from '../../types';
 import { Navigation, Radio } from 'lucide-react';
@@ -62,7 +62,7 @@ const createStopIcon = (index: number, name: string, isCompleted: boolean) => {
           ${name}
         </div>
         <div style="background: ${bg}; width: 26px; height: 26px; border-radius: 50%; border: 2.5px solid white; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 11px; box-shadow: 0 3px 8px rgba(0,0,0,0.25);">
-          ${isCompleted ? '✓' : index + 1}
+          ${isCompleted ? 'âœ“' : index + 1}
         </div>
         <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid ${bg};"></div>
       </div>
@@ -473,3 +473,4 @@ export const LiveMap: React.FC<LiveMapProps> = ({
     </div>
   );
 };
+

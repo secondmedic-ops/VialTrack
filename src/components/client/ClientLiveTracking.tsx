@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+﻿import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -471,7 +471,7 @@ export const ClientLiveTracking: React.FC<ClientLiveTrackingProps> = ({
             <div class="w-7 h-7 rounded-full ${
               isPicked ? 'bg-emerald-600 ring-2 ring-emerald-300' : 'bg-sky-700 ring-2 ring-sky-300'
             } text-white font-bold text-[11px] flex items-center justify-center shadow-lg">
-              ${isPicked ? '✓' : idx + 1}
+              ${isPicked ? 'âœ“' : idx + 1}
             </div>
             <div class="absolute -bottom-4 bg-white/95 text-slate-800 text-[9px] font-bold px-1 rounded shadow-2xs border border-slate-200 whitespace-nowrap pointer-events-none">
               ${(stop.stopName || stop.name || `Stop ${idx + 1}`).split(',')[0]}
@@ -853,7 +853,7 @@ export const ClientLiveTracking: React.FC<ClientLiveTrackingProps> = ({
             <span className="text-slate-500 hidden sm:inline">•</span>
             <span className="text-slate-600 font-mono text-[11px] hidden sm:inline">
               {isTripActive && riderCoords
-                ? `Rider [${riderCoords[0].toFixed(4)}, ${riderCoords[1].toFixed(4)}] → Client [${targetDestinationCoords[0].toFixed(4)}, ${targetDestinationCoords[1].toFixed(4)}]`
+                ? `Rider [${riderCoords[0].toFixed(4)}, ${riderCoords[1].toFixed(4)}] â†’ Client [${targetDestinationCoords[0].toFixed(4)}, ${targetDestinationCoords[1].toFixed(4)}]`
                 : `Client [${targetDestinationCoords[0].toFixed(4)}, ${targetDestinationCoords[1].toFixed(4)}]`
               }
             </span>
@@ -898,4 +898,5 @@ export const ClientLiveTracking: React.FC<ClientLiveTrackingProps> = ({
     </div>
   );
 };
+
 

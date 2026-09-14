@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth, PickupTask, Route, PickupBoy, StopProgress, TaskStatus, RiderSession, StopStatus } from '../../types';
 import {
@@ -2120,7 +2120,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-bold text-sm">
-                  {punctualityReport.isOverdue ? '🚨 URGENT: Punch-In Overdue!' : '⏰ Punch-In Required Before Route Starts'}
+                  {punctualityReport.isOverdue ? 'ðŸš¨ URGENT: Punch-In Overdue!' : 'â° Punch-In Required Before Route Starts'}
                 </span>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${punctualityReport.badgeClass}`}>
                   {punctualityReport.label}
@@ -2291,7 +2291,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
           const gpsDenied = gpsStatus.isPermissionDenied || Boolean(gpsStatus.errorMessage);
           const gpsLive = gpsStatus.isActive && isCheckedIn && !gpsDenied;
 
-          const label = gpsDenied ? 'Blocked' : gpsLive ? 'Active' : isCheckedIn ? 'Starting…' : 'Off Duty';
+          const label = gpsDenied ? 'Blocked' : gpsLive ? 'Active' : isCheckedIn ? 'Startingâ€¦' : 'Off Duty';
           const detail = gpsDenied
             ? 'Location permission needed'
             : gpsLive
@@ -2489,7 +2489,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
 
                             {isLocked ? (
                               <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                                <span>🔒 Details locked until Stop {firstPendingIdx + 1} ({activeTask.stopsProgress?.[firstPendingIdx]?.stopName || activeTask.stops?.[firstPendingIdx]?.stopName || 'Previous Stop'}) is completed</span>
+                                <span>ðŸ”’ Details locked until Stop {firstPendingIdx + 1} ({activeTask.stopsProgress?.[firstPendingIdx]?.stopName || activeTask.stops?.[firstPendingIdx]?.stopName || 'Previous Stop'}) is completed</span>
                               </p>
                             ) : (
                               <>
@@ -3730,3 +3730,4 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
     </div>
   );
 };
+

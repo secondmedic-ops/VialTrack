@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { RouteStop, Client } from '../../types';
@@ -483,7 +483,7 @@ export const RouteBuilder: React.FC<RouteBuilderProps> = ({
                 <span>Active Route Leg Sequence</span>
               </div>
               <div className="text-slate-500 font-mono text-[9px]">
-                {stops.length} Stops ➔ Final Destination Lab
+                {stops.length} Stops âž” Final Destination Lab
               </div>
             </div>
           </div>
@@ -492,3 +492,4 @@ export const RouteBuilder: React.FC<RouteBuilderProps> = ({
     </div>
   );
 };
+
