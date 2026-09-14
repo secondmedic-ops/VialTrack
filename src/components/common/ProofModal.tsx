@@ -483,8 +483,7 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
                       >
                         <img src={destPhoto}
                           alt="Lab Drop Proof"
-                          className="w-full max-h-64 object-cover rounded-lg group-hover:scale-101 transition-transform"
-                        / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
+                          className="w-full max-h-64 object-cover rounded-lg group-hover:scale-101 transition-transform" loading="lazy" crossOrigin="anonymous" />
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold">
                           Click to enlarge
                         </div>
@@ -556,7 +555,6 @@ export const ProofModal: React.FC<ProofModalProps> = ({ task, isOpen, onClose })
               <img src={zoomedImage.url}
                 alt={zoomedImage.title}
                 className="max-w-full max-h-[75vh] object-contain rounded"
-              / className="w-full h-auto max-h-[60vh] object-contain rounded-lg border border-slate-200 shadow-sm" loading="lazy" crossOrigin="anonymous" />
             </div>
           </div>
         </div>
