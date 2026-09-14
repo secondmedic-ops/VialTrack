@@ -82,15 +82,17 @@ export const RiderLogin: React.FC<RiderLoginProps> = ({ onLoginSuccess, onBackTo
       for (const candidate of emailCandidates) {
         try {
           const credential = await signInWithEmailAndPassword(auth, candidate, password);
-          if (credential?.user) return credential.user;
-        } catch (authErr: any) {
-          console.warn("[VialTrack Auth] Candidate failed:", candidate, authErr?.code || authErr?.message);
-        }
+          const tokenResult = await credential.user.getIdTokenResult();
+          if (tokenResult.claims.role && tokenResult.claims.role !== 'rider') {
+            setError('This login is for field riders only. Please use the correct portal.');
+            setLoading(false);
+            return;
+          }
           authedRiderId = (tokenResult.claims.riderId as string) || null;
           isFirebaseAuthed = true;
           break;
         } catch {
-          // Try the next spelling; if none match, the legacy checks below decide.
+          // Candidate mismatch; continue
         }
       }
 
@@ -399,6 +401,7 @@ export const RiderLogin: React.FC<RiderLoginProps> = ({ onLoginSuccess, onBackTo
     </div>
   );
 };
+
 
 
 
