@@ -1,0 +1,32 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // No storage.rules file existed in this repo before -- meaning whatever rules are live today
+    // exist only as clicks in Firebase Console, un-reviewed and un-versioned. Given every
+    // Firestore rule in this project defaulted to `if true`, the safe assumption was that Storage
+    // was equally open, meaning every rider/client pickup photo was a guessable-or-listable URL
+    // away from anyone on the internet.
+    //
+    // This requires real, signed-in Firebase Authentication for every read and write under
+    // proofs/ (where uploadPhotoToStorage() in src/services/firebase.ts writes specimen, selfie,
+    // and lab-drop photos -- see proofs/{tripId}/... in RiderDashboard.tsx). It does not yet
+    // scope access further to "only the assigned rider/client for that specific trip", the way
+    // firestore.rules does -- Storage rules can cross-reference Firestore documents via
+    // firestore.get(...), but that adds real complexity and a second thing that can silently
+    // break if the two ever drift, so this starts simpler and can be tightened further once the
+    // simpler version is confirmed working.
+    //
+    // Same deploy-order requirement as firestore.rules: DO NOT publish this until every current
+    // rider/client has a real Firebase Auth account (see the "Migrate Accounts to Secure Login"
+    // step) -- otherwise their own already-uploaded photos become unreadable to them too.
+    match /proofs/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Default deny everything else.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

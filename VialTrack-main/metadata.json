@@ -1,0 +1,6 @@
+{
+  "name": "SecondMedic VialTrack",
+  "description": "Diagnostic sample-pickup logistics management system with dedicated Admin, Client, and mobile-first Pickup Boy portals, live GPS tracking, cold-box temperature logging, and chain-of-custody proof.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

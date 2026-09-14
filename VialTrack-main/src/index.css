@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* Leaflet Map Stacking Context Isolation & Z-Index Containment */
+.leaflet-container {
+  z-index: 0 !important;
+  isolation: isolate !important;
+}
+
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
+
+/* Professional Leaflet Map Attribution Badge */
+.leaflet-control-attribution {
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  color: #64748b !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(226, 232, 240, 0.85) !important;
+  border-radius: 6px !important;
+  margin: 4px 8px !important;
+  padding: 2px 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+.leaflet-control-attribution a {
+  color: #0369a1 !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+}
+
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
+}
+
