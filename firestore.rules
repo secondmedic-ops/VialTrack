@@ -1,8 +1,6 @@
-﻿rules_version = '2';
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper functions
     function isAuthenticated() {
       return request.auth != null;
     }
@@ -19,13 +17,11 @@ service cloud.firestore {
       return isAuthenticated() && (request.auth.uid == riderId || request.auth.token.riderId == riderId);
     }
 
-    // Riders Collection: Public read needed for terminal ID lookup; writes admin-only
     match /riders/{riderId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Routes Collection: Admins full access; Riders only read/update their assigned routes
     match /routes/{routeId} {
       allow read: if isAdmin() || (isAuthenticated() && (
         resource.data.assignedRiderId == request.auth.uid ||
@@ -40,26 +36,22 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // Clients & Labs: Admins full access; authenticated users read-only
     match /clients/{clientId} {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
     }
 
-    // Live GPS Telemetry: Only the active rider can write their own coordinates; Admins can read all
     match /telemetry/{riderId} {
       allow read: if isAuthenticated();
       allow write: if isAssignedRider(riderId) || isAdmin();
     }
 
-    // Attendance & Check-ins
     match /attendance/{recordId} {
       allow read: if isAuthenticated();
       allow create, update: if isAuthenticated();
       allow delete: if isAdmin();
     }
 
-    // Audit logs & System alerts: Admin only
     match /alerts/{alertId} {
       allow read, write: if isAdmin();
     }
