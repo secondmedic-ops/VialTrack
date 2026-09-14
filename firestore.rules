@@ -1,63 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isAuthenticated() {
-      return request.auth != null;
-    }
 
-    // Riders Collection
-    match /riders/{riderId} {
-      allow read: if true;
-      allow write: if isAuthenticated();
-      
-      // Allow rider subcollections (trips, logs, history)
-      match /{subcollection=**} {
-        allow read, write: if isAuthenticated();
-      }
-    }
-
-    // Top-level Trips Collection
-    match /trips/{tripId} {
-      allow read, write: if isAuthenticated();
-      match /{subcollection=**} {
-        allow read, write: if isAuthenticated();
-      }
-    }
-
-    // Routes Collection
-    match /routes/{routeId} {
-      allow read, write: if isAuthenticated();
-      match /{subcollection=**} {
-        allow read, write: if isAuthenticated();
-      }
-    }
-
-    // Tasks Collection
-    match /tasks/{taskId} {
-      allow read, write: if isAuthenticated();
-      match /{subcollection=**} {
-        allow read, write: if isAuthenticated();
-      }
-    }
-
-    // Clients & Labs
-    match /clients/{clientId} {
-      allow read, write: if isAuthenticated();
-    }
-
-    // Live GPS Telemetry
-    match /telemetry/{riderId} {
-      allow read, write: if isAuthenticated();
-    }
-
-    // Attendance
-    match /attendance/{recordId} {
-      allow read, write: if isAuthenticated();
-    }
-
-    // Alerts
-    match /alerts/{alertId} {
-      allow read, write: if isAuthenticated();
+    // Allow full operational access for riders, admin dispatch, routes, and trips
+    match /{document=**} {
+      allow read, write: if true;
     }
   }
 }
