@@ -62,8 +62,7 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
 
       if (emailToAuth) {
         try {
-          const credential = await signInWithEmailAndPassword(auth, emailToAuth, password)
-          );
+          const credential = await signInWithEmailAndPassword(auth, emailToAuth, password);
           const tokenResult = await credential.user.getIdTokenResult();
           const claimRole = tokenResult.claims.role;
           const claimClientId = tokenResult.claims.clientId;
@@ -313,4 +312,5 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
     </div>
   );
 };
+
 

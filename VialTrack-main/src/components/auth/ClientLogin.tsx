@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, KeyRound, AlertCircle, ArrowRight, ArrowLeft, ShieldCheck, Mail, RefreshCw, Eye, EyeOff } from 'lucide-react';
 import { StorageService } from '../../services/storage';
@@ -278,7 +278,7 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-3 pr-10 py-2.5 bg-white border border-slate-300 rounded-lg text-slate-900 font-mono focus:outline-hidden focus:border-teal-600 shadow-2xs"
