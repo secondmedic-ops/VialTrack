@@ -62,11 +62,7 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
 
       if (emailToAuth) {
         try {
-          const credential = try {
-    await signInWithEmailAndPassword()
-} catch (authErr: any) {
-    console.warn('[VialTrack Auth] Handled rider sign-in bypass:', authErr?.code || authErr?.message);
-}
+          const credential = await signInWithEmailAndPassword(auth, emailToAuth, password)
           );
           const tokenResult = await credential.user.getIdTokenResult();
           const claimRole = tokenResult.claims.role;
@@ -317,3 +313,4 @@ export const ClientLogin: React.FC<ClientLoginProps> = ({ onLoginSuccess, onBack
     </div>
   );
 };
+
