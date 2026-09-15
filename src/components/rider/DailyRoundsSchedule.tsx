@@ -14,6 +14,7 @@ import {
   Thermometer,
   Package,
   Layers,
+  CalendarDays,
   Sparkles,
   Search,
   Filter,
@@ -36,6 +37,9 @@ export interface ScheduleStopItem {
   lat: number;
   lng: number;
   timeSlot: string;
+  /** Calendar date this round belongs to ("YYYY-MM-DD"). Lets a rider tell today's round
+   *  from a leftover one, and keeps same-route/same-slot rounds on different days apart. */
+  roundDate?: string;
   /** Scheduled pickup time for this specific stop ("HH:mm"); falls back to the round slot. */
   pickupTime?: string;
   contactPerson: string;
@@ -78,6 +82,32 @@ const parseSlotToMinutes = (slot: string): number => {
   if (meridiem === 'AM' && hours === 12) hours = 0;
   return hours * 60 + minutes;
 };
+
+/**
+ * Turns a round's "YYYY-MM-DD" into something a rider reads at a glance. A leftover round from
+ * a previous day looks identical to today's otherwise -- same route, same slot, same stops --
+ * which is exactly how an unfinished round gets mistaken for the current one.
+ */
+function roundDateLabel(isoDate?: string): { text: string; isToday: boolean; isPast: boolean } | null {
+  if (!isoDate) return null;
+  const today = new Date();
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+
+  const yest = new Date(today);
+  yest.setDate(yest.getDate() - 1);
+  const yestStr = `${yest.getFullYear()}-${pad(yest.getMonth() + 1)}-${pad(yest.getDate())}`;
+
+  if (isoDate === todayStr) return { text: 'Today', isToday: true, isPast: false };
+  if (isoDate === yestStr) return { text: 'Yesterday', isToday: false, isPast: true };
+
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const parsed = new Date(y, (m || 1) - 1, d || 1);
+  const text = Number.isNaN(parsed.getTime())
+    ? isoDate
+    : parsed.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+  return { text, isToday: false, isPast: isoDate < todayStr };
+}
 
 export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
   scheduleStops,
@@ -148,6 +178,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
       routeId: string;
       routeName: string;
       timeSlot: string;
+      roundDate?: string;
       clientName: string;
       route?: Route;
       stops: ScheduleStopItem[];
@@ -155,7 +186,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
     }>();
 
     filteredStops.forEach((stop) => {
-      const groupKey = `${stop.routeId || stop.routeName}-${stop.timeSlot}`;
+      const groupKey = `${stop.routeId || stop.routeName}-${stop.timeSlot}-${stop.roundDate || 'nodate'}`;
       if (!groupsMap.has(groupKey)) {
         const routeObj = (assignedRoutes || []).find((r) => r.id === stop.routeId || r.name === stop.routeName);
         groupsMap.set(groupKey, {
@@ -163,6 +194,7 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
           routeId: stop.routeId,
           routeName: stop.routeName,
           timeSlot: stop.timeSlot,
+          roundDate: stop.roundDate,
           clientName: stop.clientName,
           route: routeObj,
           stops: [],
@@ -177,8 +209,13 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
     });
 
     const list = Array.from(groupsMap.values());
-    // Sort chronologically by timeSlot
-    list.sort((a, b) => parseSlotToMinutes(a.timeSlot) - parseSlotToMinutes(b.timeSlot));
+    // Sort by date first, then chronologically by timeSlot -- otherwise a leftover round from
+    // an earlier day interleaves with today's rounds purely on its slot time.
+    list.sort((a, b) => {
+      const dateDiff = String(a.roundDate || '').localeCompare(String(b.roundDate || ''));
+      if (dateDiff !== 0) return dateDiff;
+      return parseSlotToMinutes(a.timeSlot) - parseSlotToMinutes(b.timeSlot);
+    });
     return list;
   }, [filteredStops, assignedRoutes]);
 
@@ -489,6 +526,20 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
                       <Layers className="w-3.5 h-3.5 text-slate-400" />
                       <span>{group.routeName}</span>
                     </h4>
+                    {(() => {
+                      const dl = roundDateLabel(group.roundDate);
+                      if (!dl) return null;
+                      return (
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border flex items-center gap-1 ${
+                          dl.isPast
+                            ? 'bg-amber-100 text-amber-900 border-amber-300'
+                            : 'bg-slate-100 text-slate-700 border-slate-300'
+                        }`}>
+                          <CalendarDays className="w-3 h-3" />
+                          <span>{dl.text}</span>
+                        </span>
+                      );
+                    })()}
                   </div>
 
                   <span className="text-[11px] font-bold text-slate-600 bg-slate-200 px-2.5 py-1 rounded-full flex items-center gap-1.5 self-start sm:self-auto">
@@ -545,6 +596,20 @@ export const DailyRoundsSchedule: React.FC<DailyRoundsScheduleProps> = ({
                     <Layers className="w-3.5 h-3.5 text-slate-500" />
                     <span>{group.routeName}</span>
                   </h4>
+                  {(() => {
+                      const dl = roundDateLabel(group.roundDate);
+                      if (!dl) return null;
+                      return (
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border flex items-center gap-1 ${
+                          dl.isPast
+                            ? 'bg-amber-100 text-amber-900 border-amber-300'
+                            : 'bg-slate-100 text-slate-700 border-slate-300'
+                        }`}>
+                          <CalendarDays className="w-3 h-3" />
+                          <span>{dl.text}</span>
+                        </span>
+                      );
+                    })()}
                   {isActive && (
                     <span className="text-[10px] font-bold text-sky-800 bg-sky-100 border border-sky-300 px-2 py-0.5 rounded-full flex items-center gap-1 animate-pulse">
                       â— Active Round

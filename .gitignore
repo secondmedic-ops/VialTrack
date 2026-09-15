@@ -9,3 +9,8 @@ coverage/
 
 patch-*.ps1
 *.bak
+
+# Never commit these
+serviceAccountKey.json
+*firebase-adminsdk*.json
+inspect-stop.mjs

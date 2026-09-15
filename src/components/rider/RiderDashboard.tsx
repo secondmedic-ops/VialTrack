@@ -132,6 +132,19 @@ interface RiderDashboardProps {
   onOpenProof: (task: PickupTask) => void;
 }
 
+
+/**
+ * A round's calendar date. `date`/`scheduledDate` are the authoritative fields, but the task ID
+ * carries the date too ("task-YYYY-MM-DD-route_...") and is the one thing that never drifts --
+ * CloudSync.syncDocument deliberately drops a scheduledDate that disagrees with the ID.
+ */
+function taskRoundDate(task: any): string | undefined {
+  if (!task) return undefined;
+  const fromId = String(task.id || '').match(/^task-(\d{4}-\d{2}-\d{2})-/);
+  if (fromId) return fromId[1];
+  return task.date || task.scheduledDate || undefined;
+}
+
 export const RiderDashboard: React.FC<RiderDashboardProps> = ({
   user,
   tasks,
@@ -595,6 +608,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
               lat: sp.lat || 19.1287852,
               lng: sp.lng || 72.8294183,
               timeSlot: matchedTask.timeSlot || slot,
+              roundDate: taskRoundDate(matchedTask),
               pickupTime: (sp as any).pickupTime || '',
               contactPerson: sp.contactPerson || 'Point of Contact',
               phone: sp.phone || '',
@@ -627,6 +641,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
               lat: rs.lat || 19.1287852,
               lng: rs.lng || 72.8294183,
               timeSlot: slot,
+              roundDate: todayStr,
               pickupTime: (rs as any).pickupTime || '',
               contactPerson: rs.contactPerson || 'Point of Contact',
               phone: rs.phone || '',
@@ -677,6 +692,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
             lat: sp.lat || 19.1287852,
             lng: sp.lng || 72.8294183,
             timeSlot: task.timeSlot || 'Immediate Dispatch',
+            roundDate: taskRoundDate(task),
             contactPerson: sp.contactPerson || 'Point of Contact',
             phone: sp.phone || '',
             status,
@@ -709,6 +725,7 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
           lat: task.clientLabLocation?.lat || 19.1287852,
           lng: task.clientLabLocation?.lng || 72.8294183,
           timeSlot: task.timeSlot || 'Immediate Dispatch',
+          roundDate: taskRoundDate(task),
           contactPerson: 'Point of Contact',
           phone: '',
           status,
