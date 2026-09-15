@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { UserAuth, PickupTask, Route as LogisticsRoute, PickupBoy, Client, AttendanceRecord, NotificationLog, LocationPing } from './types';
 import { StorageService } from './services/storage';
@@ -636,14 +636,27 @@ function AppContent() {
           // ONLY safe match here. The old route+slot fallback ignored the date entirely, so it
           // collapsed every day's round into one: clicking Proof on today's undispatched 10:00
           // round returned a REAL completed record from 4 September, rider and vial counts and all.
-          const matched = allStored.find((t) => t.id === selectedProofTask.id) ||
+          // Genuine proof means a stop that was actually worked: a captured photo, or a status
+          // only the rider flow can set. A stop synthesised from the route definition is 'pending'
+          // and never satisfies this, so the guard below still refuses to invent a record.
+          const hasProofOn = (candidate: any) => {
+            const check = (s: any) =>
+              s?.photoUrl || s?.photo || s?.status === 'picked_up' || s?.status === 'no_sample' || s?.status === 'completed';
+            return Boolean(candidate?.stopsProgress?.some(check) || candidate?.stops?.some(check));
+          };
+
+          const stored = allStored.find((t) => t.id === selectedProofTask.id) ||
             tasks.find((t) => t.id === selectedProofTask.id);
 
-          const hasProof = Boolean(
-            matched?.stopsProgress?.some(
-              (s: any) => s.photoUrl || s.photo || s.status === 'picked_up' || s.status === 'no_sample' || s.status === 'completed'
-            )
-          );
+          // The round card that opened this modal already carries the live Firestore copy. Looking
+          // only at localStorage meant any session without it -- a fresh device, an InPrivate
+          // window, a cleared browser -- reported "No pickup recorded yet" for rounds whose proof
+          // was sitting right there on the server.
+          const matched = hasProofOn(stored)
+            ? stored
+            : (hasProofOn(selectedProofTask) ? (selectedProofTask as any) : stored);
+
+          const hasProof = hasProofOn(matched);
 
           if (!matched || !hasProof) {
             return { ...selectedProofTask, stopsProgress: [], __noProof: true } as any;
