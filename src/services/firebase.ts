@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
+﻿import { initializeApp, getApps, getApp } from 'firebase/app';
 import {
   getFirestore,
   initializeFirestore,
@@ -748,6 +748,62 @@ const DISPATCH_STOP_RANK: Record<string, number> = {
 };
 const dispatchStopRank = (status?: string) => DISPATCH_STOP_RANK[status || 'pending'] ?? 0;
 
+
+/**
+ * Proof fields carried on a completed stop. Once any of these is set on the server copy it must
+ * never be erased by a routine full-document sync -- they ARE the chain-of-custody record.
+ */
+const STOP_PROOF_FIELDS = [
+  'photoUrl', 'photo', 'photo2Url', 'handoverPhotoUrl', 'selfieUrl', 'samplePhotoUrl',
+  'photoTimestamp', 'photoLocation', 'completedAt', 'pickedUpAt', 'arrivedAt',
+  'coldBoxTemp', 'remark', 'noSampleReason', 'notes'
+];
+
+/**
+ * Firestore's merge:true does NOT deep-merge arrays -- writing `stops` replaces the array
+ * wholesale. Several callers sync a whole task whose stops were rebuilt from the route template
+ * (status 'pending', no proof fields), which silently erased the photo URLs and completion state
+ * of stops that had already been confirmed. completeTripStop guards against this by re-reading
+ * the server copy; this does the same for every other write.
+ *
+ * The merge only ever ADDS: a stop keeps whichever status ranks higher, and any proof field the
+ * server already has wins over an incoming blank. Genuine new progress still lands.
+ */
+function mergeStopArrays(serverStops: any[], incomingStops: any[]): any[] {
+  if (!Array.isArray(serverStops) || serverStops.length === 0) return incomingStops;
+  if (!Array.isArray(incomingStops) || incomingStops.length === 0) return incomingStops;
+
+  const keyOf = (st: any, idx: number) => String(st?.id || st?.stopId || st?.stopName || st?.name || idx);
+  const serverByKey = new Map<string, any>();
+  serverStops.forEach((st, idx) => serverByKey.set(keyOf(st, idx), st));
+
+  return incomingStops.map((incoming: any, idx: number) => {
+    const serverStop = serverByKey.get(keyOf(incoming, idx)) || serverStops[idx];
+    if (!serverStop) return incoming;
+
+    const merged: any = { ...incoming };
+
+    // Never downgrade a stop that the server already considers further along.
+    if (dispatchStopRank(serverStop.status) > dispatchStopRank(incoming.status)) {
+      merged.status = serverStop.status;
+      if (serverStop.sampleCount !== undefined && !incoming.sampleCount) merged.sampleCount = serverStop.sampleCount;
+      if (serverStop.specimenCount !== undefined && !incoming.specimenCount) merged.specimenCount = serverStop.specimenCount;
+    }
+
+    // Never blank out proof the server already holds.
+    STOP_PROOF_FIELDS.forEach((field) => {
+      const incomingVal = (incoming as any)[field];
+      const serverVal = (serverStop as any)[field];
+      const incomingIsBlank = incomingVal === undefined || incomingVal === null || incomingVal === '';
+      if (incomingIsBlank && serverVal !== undefined && serverVal !== null && serverVal !== '') {
+        merged[field] = serverVal;
+      }
+    });
+
+    return merged;
+  });
+}
+
 // Realtime Firestore synchronization helpers
 export const CloudSync = {
   // Unified trip dispatch creating trip document in Firestore collection 'trips'
@@ -1327,6 +1383,29 @@ export const CloudSync = {
       // refreshing scheduledDate/date on old rounds, which made a 4 September round claim to be
       // today's and reappear in the live feed. The ID carries the real date, so these fields are
       // dropped from task/trip updates rather than allowed to drift.
+      // Protect already-recorded proof on task/trip writes. merge:true replaces arrays wholesale,
+      // so a full-document sync carrying template-derived stops wipes the photo URLs and completion
+      // state of stops already confirmed. Re-read the server copy and merge additively first.
+      if ((collectionName === 'tasks' || collectionName === 'trips') &&
+          (Array.isArray(payload.stops) || Array.isArray(payload.stopsProgress))) {
+        try {
+          const existingSnap = await getDoc(ref);
+          if (existingSnap.exists()) {
+            const existing = existingSnap.data() as any;
+            if (Array.isArray(payload.stops)) {
+              payload.stops = mergeStopArrays(existing.stops || existing.stopsProgress || [], payload.stops);
+            }
+            if (Array.isArray(payload.stopsProgress)) {
+              payload.stopsProgress = mergeStopArrays(existing.stopsProgress || existing.stops || [], payload.stopsProgress);
+            }
+          }
+        } catch (mergeErr) {
+          // Could not read the server copy (offline, or not permitted). Fall through and write the
+          // local payload as before rather than losing the update entirely.
+          console.warn(`[CloudSync] Could not merge existing stops for ${collectionName}/${docId}:`, mergeErr);
+        }
+      }
+
       if (collectionName === 'tasks' || collectionName === 'trips') {
         const idDate = String(docId).match(/^task-(\d{4}-\d{2}-\d{2})-/);
         if (idDate) {
