@@ -1,4 +1,4 @@
-import {
+﻿import {
   Client,
   Route,
   PickupBoy,
@@ -440,8 +440,9 @@ export const StorageService = {
     }
 
     safeSetItem(STORAGE_KEYS.TASKS, JSON.stringify(updatedList));
-    CloudSync.syncDocument('tasks', task.id, task);
-    CloudSync.syncDocument('trips', task.id, task);
+    const synced = existingIndex >= 0 ? updatedList[existingIndex] : task;
+    CloudSync.syncDocument('tasks', synced.id, synced);
+    CloudSync.syncDocument('trips', synced.id, synced);
   },
   deleteTask(id: string): void {
     const tasks = this.getTasks().filter((t) => t.id !== id);
