@@ -81,7 +81,7 @@ export const RiderLogin: React.FC<RiderLoginProps> = ({ onLoginSuccess, onBackTo
 
       for (const candidate of emailCandidates) {
         try {
-          const credential = await signInWithEmailAndPassword(auth, candidate, password);
+          const credential = await signInWithEmailAndPassword(auth, candidate, passwordForFirebaseAuth(cleanPin));
           const tokenResult = await credential.user.getIdTokenResult();
           if (tokenResult.claims.role && tokenResult.claims.role !== 'rider') {
             setError('This login is for field riders only. Please use the correct portal.');
