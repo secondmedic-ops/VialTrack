@@ -589,7 +589,11 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
 
         if (matchedTask && matchedTask.stopsProgress && matchedTask.stopsProgress.length > 0) {
           matchedTask.stopsProgress.forEach((sp, spIdx) => {
-            const isCollected = sp.status === 'picked_up' || sp.status === 'completed';
+            // 'no_sample' is a HANDLED stop: the rider attended the collection point, verified there
+          // was nothing to collect and captured an arrival selfie. Omitting it here left such a
+          // stop showing as 'Pending Pickup' on the rider's checklist forever, even though the
+          // proof record (which does count it) shows it as done. ProofModal already includes it.
+          const isCollected = sp.status === 'picked_up' || sp.status === 'completed' || sp.status === 'no_sample';
             const isInTransit =
               (matchedTask.status === 'started' || matchedTask.status === 'at_stop' || matchedTask.status === 'in_transit') &&
               !isCollected;
@@ -673,7 +677,11 @@ export const RiderDashboard: React.FC<RiderDashboardProps> = ({
 
       if (taskStops.length > 0) {
         taskStops.forEach((sp: any, spIdx: number) => {
-          const isCollected = sp.status === 'picked_up' || sp.status === 'completed';
+          // 'no_sample' is a HANDLED stop: the rider attended the collection point, verified there
+          // was nothing to collect and captured an arrival selfie. Omitting it here left such a
+          // stop showing as 'Pending Pickup' on the rider's checklist forever, even though the
+          // proof record (which does count it) shows it as done. ProofModal already includes it.
+          const isCollected = sp.status === 'picked_up' || sp.status === 'completed' || sp.status === 'no_sample';
           const isInTransit =
             (task.status === 'started' || task.status === 'at_stop' || task.status === 'in_transit') &&
             !isCollected;
