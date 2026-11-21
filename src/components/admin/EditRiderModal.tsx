@@ -21,7 +21,7 @@ import {
 import { StorageService } from '../../services/storage';
 import { compressImageToBase64 } from '../../services/imageWatermark';
 import { generateStrongPassword } from '../../utils/security';
-import { db, provisionRiderAccount, removeLegacyPassword } from '../../services/firebase';
+import { db, provisionRiderAccount, removeLegacyPassword, uploadPhotoToStorage } from '../../services/firebase';
 import { doc, setDoc, serverTimestamp, collection, query, where, getDocs } from 'firebase/firestore';
 
 interface EditRiderModalProps {
@@ -439,7 +439,23 @@ export const EditRiderModal: React.FC<EditRiderModalProps> = ({
     const effectivePlate = form.plateNumber.trim() || form.vehicleNumber.trim();
     const effectiveVehicleType = form.vehicleType || 'Motorcycle / Bike';
 
+    // A picked photo is a base64 data URL. Stored on the rider document it made every live
+    // GPS update re-send ~40KB to each open map, so upload it and keep only the short URL.
+    // Already-hosted URLs come back unchanged.
+    const storePhoto = async (riderId: string): Promise<string | null> => {
+      try {
+        return await uploadPhotoToStorage(form.photoUrl, `riders/${riderId}/profile-${Date.now()}.jpg`);
+      } catch (err) {
+        console.error('Rider photo upload failed:', err);
+        setFormError('Could not upload the rider photo. Check your connection and try again.');
+        return null;
+      }
+    };
+
     if (rider) {
+      const storedPhotoUrl = await storePhoto(rider.id);
+      if (storedPhotoUrl === null) return;
+
       const newPasswordTyped = form.password.trim();
       const preservedPassword = newPasswordTyped ? newPasswordTyped : (rider.password || generateStrongPassword(8));
 
@@ -459,7 +475,7 @@ export const EditRiderModal: React.FC<EditRiderModalProps> = ({
         shiftTimings: form.shiftTimings,
         assignedRouteIds: form.assignedRouteIds,
         status: form.status,
-        photoUrl: form.photoUrl,
+        photoUrl: storedPhotoUrl,
         mustChangePassword: false,
         failedAttempts: 0,
         lockoutUntil: undefined
@@ -516,6 +532,8 @@ export const EditRiderModal: React.FC<EditRiderModalProps> = ({
       const riderId = existingRider ? existingRider.id : `rider-${cleanPhone.replace(/\D/g, '') || Date.now()}`;
       const riderEmail = form.email.trim() || `${cleanName.toLowerCase().replace(/\s+/g, '.')}@vialtrack.in`;
       const effectivePassword = form.password.trim() || existingRider?.password || generateStrongPassword(8);
+      const storedPhotoUrl = await storePhoto(riderId);
+      if (storedPhotoUrl === null) return;
 
       const newRider: PickupBoy = {
         id: riderId,
@@ -532,7 +550,7 @@ export const EditRiderModal: React.FC<EditRiderModalProps> = ({
         shiftStart: form.shiftStart,
         shiftEnd: form.shiftEnd,
         shiftTimings: form.shiftTimings,
-        photoUrl: form.photoUrl,
+        photoUrl: storedPhotoUrl,
         assignedRouteIds: form.assignedRouteIds,
         status: 'active',
         mustChangePassword: false,
